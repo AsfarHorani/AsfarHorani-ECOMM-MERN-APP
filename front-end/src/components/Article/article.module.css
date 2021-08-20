@@ -1,0 +1,68 @@
+.Form {
+    width: 20rem;
+    max-width: 90%;
+    margin: auto;
+    padding-left: 30%;
+    display: block;
+}
+.CardHeader,
+.CardContent {
+  padding: 1rem;
+}
+
+.Btn {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    margin-left: 5px;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .Btn:hover,
+  .Btn:active {
+    background-color: #00695c;
+    color: white;
+  }
+  
+
+  .Btn.danger {
+    color: red;
+    border-color: red;
+  }
+  
+  .Btn.danger:hover,
+  .Btn.danger:active {
+    background: red;
+    color: white;
+  }
+
+
+.Item {
+    width: 20rem;
+    max-width: 95%;
+    margin: 1rem;
+}
+.Image {
+  width: 13rem;
+  height: 13rem;
+  }
+  
+.Title {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.Price {
+    text-align: center;
+    color: #4d4d4d;
+    margin-bottom: 0.5rem;
+}
+
+.Description {
+    text-align: center;
+}

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda+One&display=swap');
+
+/* ----------------Sidebar Section----------------- */
+
+
+
+
+.SideBar {
+
+    position: fixed;
+    width: 20%;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background-color: #312450;
+    padding: 32px 16px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+    z-index: 90;
+
+}
+
+
+@media (max-width: 500px) {
+    .SideBar {
+        display:none;
+      
+       
+    }
+
+.Open {
+   
+    transform: translateX(0);
+}
+
+.Close {
+    transform: translateX(-100%);
+}
+}
