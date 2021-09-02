@@ -6,10 +6,10 @@ import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
 import DrawerToggle from './drawerToggle/drawerToggle'
 import img from '../../assets/images/cart.png'
 import {NavLink} from 'react-router-dom';
-const header = (props)=>{
+const Header = (props)=>{
+ 
+ 
 
-
-  console.log(props)
   let orderNav = (
     <Auxiliary>
    
@@ -20,8 +20,9 @@ const header = (props)=>{
     >
      
         <img src={img} atle="logo"/>
-       <p> {props.itemsCount}</p>
+      
    </NavLink>
+ 
     </Auxiliary>);
 
     
@@ -30,7 +31,7 @@ const header = (props)=>{
     orderNav = (<Auxiliary>
      
       <NavigationItem link='/Orders' >Orders</NavigationItem>
-    <NavigationItem link='/add-product' >Add new product</NavigationItem>
+    <NavigationItem link='/add-product' >New product</NavigationItem>
     <button className={classes.Btn} onClick={()=>props.logout()}>Logout</button>
     </Auxiliary> )
   }
@@ -50,4 +51,4 @@ const header = (props)=>{
 }
 
 
-export default header;
+export default Header;

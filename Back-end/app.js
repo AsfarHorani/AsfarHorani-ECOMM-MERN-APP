@@ -4,6 +4,7 @@ const authRoutes=require('./Routes/auth');
 const orderRoutes=require('./Routes/order');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 const app = express();
 const dataBaseURL = "mongodb+srv://asfar:101021@cluster0.mnphf.mongodb.net/mrfood";
 const multer = require('multer');
@@ -60,16 +61,7 @@ app.use(authRoutes);
 
 mongoose.connect(dataBaseURL)
 .then(res=>{
-  // User.findOne().then(user => {
-  //   if (!user) {
-  //     const user = new User({
-  //       cart: {
-  //         items: []
-  //       }
-  //     });
-  //     user.save();
-  //   }
-  // });
+ 
     app.listen(8080);
 })
 .catch(err=>{

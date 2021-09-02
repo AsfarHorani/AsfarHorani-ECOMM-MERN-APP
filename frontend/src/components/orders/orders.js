@@ -5,9 +5,9 @@ const Order =props=> {
    const [orders,setOrders]= useState([]);
    
    const [loading,setLoading] = useState(false)
-   
 
-   console.log(props)
+   const token = localStorage.getItem('token');
+
    useEffect(()=>{
        
       setLoading(true)
@@ -16,13 +16,21 @@ const Order =props=> {
           
           headers:{
             
-                Authorization: 'Bearer ' + props.token,
+                Authorization: 'Bearer ' + token,
             }
       }).then(res=>{
+          console.log(props.token)
           if(res.status===401)
           {
-            this.props.history.replace('/')
+            props.history.replace('/')
+            const error = new Error('You are unauthorized!');
+            throw error
+           
           }
+          if(res.status===500){
+            const error = new Error('An error occured!');
+            throw error
+           }
           if(res.status!==200 && res.status!==201){
               const error = new Error('Could not fetch Orders');
               throw error
@@ -39,7 +47,7 @@ const Order =props=> {
           props.catchError(err)
           setLoading(false)
       })
-  },[props.token])
+  },[token])
 
  const deleteOrderHandler=(orderId)=>{
   setLoading(true)

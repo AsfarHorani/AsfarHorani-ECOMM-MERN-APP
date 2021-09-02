@@ -69,7 +69,7 @@ const [cart,setCart]= useState({})
 
   let subTotal = props.cart.totalPrice;
 
-  let shipment = (+subTotal/100)*10;
+  let shipment =Math.round((+subTotal/100)*10,1) ;
     let grandTotal = +subTotal +shipment;
  let items =<h3>Cart is Empty</h3>;
     if(props.cart.items.length>0)
@@ -97,7 +97,7 @@ const [cart,setCart]= useState({})
 
     useEffect(()=>{
     setCart(props.cart)
-
+   
     },[props.cart])
 
     useEffect(()=>{
@@ -183,6 +183,7 @@ props.clicked(data)
   <Input 
   placeholder="Your Email Address  (optional)" 
   message={email.validation.message}
+  elementType="email" 
   onChange={(event)=>inputChangedHandler(event,'email')} 
   invalid={!email.valid}
   touched={email.touched}

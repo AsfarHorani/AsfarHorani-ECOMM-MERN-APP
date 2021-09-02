@@ -30,13 +30,16 @@ class Body extends Component {
 
 }
 
-// shouldComponentUpdate(nextProps, nextState) {
-//   return this.state.products.length!== nextState.products.length ;
+shouldComponentUpdate(nextProps, nextState) {
+  return this.state.products.length!== nextState.products.length || this.state.cart!==nextState.cart ;
  
-// }
+}
 
 componentDidMount(){
-  console.log(this.props)
+  
+  console.log('Component did mount....Body')
+
+  console.log(this.state.cart)
 this.setState({loading: true})
 fetch('http://localhost:8080/get-products')
   .then(res=>{
@@ -48,6 +51,7 @@ fetch('http://localhost:8080/get-products')
       this.setState({
          loading: false,
           products: resData.products,
+        
       })
      
   })
@@ -130,7 +134,7 @@ deleteHandler=(prodId)=>{
     const updatedProducts= this.state.products.filter(prod=>prod._id!==deletedProduct._id);
     this.setState({products: updatedProducts})
 
-  }) .catch(err=>{
+  }).catch(err=>{
     console.log(err)
     this.props.catchError(err)
 
@@ -152,8 +156,6 @@ addToCartHandler=(prodId)=>{
   let updatedCart = {...this.state.cart}
   let updatedCartItems= [...updatedCart.items]
   let alreadyExist = false;
-
-
   updatedCartItems.forEach(i=> {
    if(prodId===i.product._id)
    {
@@ -178,13 +180,58 @@ addToCartHandler=(prodId)=>{
     updatedPrice = +updatedPrice +  +prodPrice;
      updatedCartItems =prevState.cart.items.concat(newItem)
      console.log(updatedPrice)
+      
       return{ cart: {...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}}
-     // this.setState({ someProperty: { ...this.state.someProperty, flag: false} });
+
+    })
+  } 
+  
+  
+    }
+    quantityHandler=(quan, prodId)=>{
+     
+      this.setState(prevState=>{
+      let updatedCart = {...prevState.cart}
+      let updatedCartItems= [...updatedCart.items];
+      let updatedPrice = updatedCart.totalPrice
+      let updatedCartItemIndex =  updatedCart.items.findIndex(p=>prodId===p.product._id)
+      let prevQuan = updatedCartItems[updatedCartItemIndex].quantity;
+        let prodPrice= updatedCartItems[updatedCartItemIndex].product.price;
+      updatedCartItems[updatedCartItemIndex].quantity = quan;
+       console.log(updatedPrice)
+      if(prevQuan && prevQuan>0){
+          updatedPrice = +updatedPrice - (prevQuan*prodPrice)
+      }
+      console.log(updatedPrice)
+      updatedPrice = +updatedPrice + (+quan* +prodPrice);
+
+     return{ cart:{...this.state.cart, items: updatedCartItems, totalPrice : updatedPrice}}
     })
   }
   
+  removeFromCartHandler=(prodId, prodPrice)=>{
+   
+    this.setState(prevState=>{
+  
+      let updatedCart = {...prevState.cart}
+      let updatedCartItems= [...updatedCart.items];
+      let updatedPrice = [updatedCart.totalPrice]
+      updatedPrice = +updatedPrice -  +prodPrice;
+     updatedCartItems= updatedCart.items.filter(p=>prodId!==p.product._id)
+      console.log( updatedCartItems)
+     
+      return{
+        cart:{...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}
+        
+      }
+   
+    })
     }
+  
 
+
+
+ 
      clickCheckoutHandler=(cart)=>{
       this.setState({cart: cart})
      }
@@ -222,7 +269,7 @@ addToCartHandler=(prodId)=>{
        return{ cart: {...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}}
        })
        this.setState({message:{title: 'Order placed!', content:'Your order has been placed please wait for confirmation call'}})
-     })  .catch(err=>{
+     }).catch(err=>{
       console.log(err)
       this.props.catchError(err)
 
@@ -259,7 +306,7 @@ formData.append('category', prodData.category)
       updatedProducts[prodInd] = resData.product
       this.setState({products: updatedProducts, selectedProduct: null})
       this.props.history.replace('/')
-    })  .catch(err=>{
+    }).catch(err=>{
       console.log(err)
       this.props.catchError(err)
 
@@ -309,8 +356,8 @@ formData.append('category', prodData.category)
           <Route path="/add-product"  exact render={(props) =><AddProductForm token={this.props.token} editMode={false} {...props}  isAuth={this.props.isAuth} clicked={this.addProductHandler} />}/>
           <Route name='product-view' path="/product/:prodId" exact render={(props)=><ProductView addToCart={this.addToCartHandler} token={this.props.token} {...props} />   }></Route>
           <Route path='/edit-product'  exact render={(props)=><AddProductForm token={this.props.token} clickedEdit ={this.clickedEditHandler} product={this.state.selectedProduct} editMode={true} {...props} isAuth={props.isAuth}/>}/>
-          <Route path='/Cart' exact render={(props)=><Cart clicked={this.clickCheckoutHandler} cart={this.state.cart} {...props}/>}/>
-          <Route path='/Checkout' exact render={(props)=><Checkout  {...props} cart={this.state.cart} clicked={this.addOrderHandler}/>}/>
+          <Route path='/Cart' exact render={(props)=><Cart cart={this.state.cart} removeFromCartHandler={this.removeFromCartHandler} quantityHandler={this.quantityHandler}  setClearLocalStorage={this.setClearLocalStorage} clearLocalStorage={this.clearLocalStorage}  clicked={this.clickCheckoutHandler} cart={this.state.cart} {...props}/>}/>
+          <Route path='/Checkout' exact render={(props)=><Checkout {...props} cart={this.state.cart} clicked={this.addOrderHandler}/>}/>
           <Route path="/login" exact render={(props) =><Login  className='login' {...props}  login={this.props.login}/>}/>
           <Route path="/signup" exact render={(props) =><Signup {...props} token={this.props.token}   signup={this.props.signup}/>}/>
           <Route path='/orders'  exact render={(props)=><Orders {...props} token={this.props.token} catchError={this.props.catchError}/>}/>

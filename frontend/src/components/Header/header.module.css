@@ -13,21 +13,26 @@
     z-index: 200;
 }
 .CartLogo {
-   
+  display: flex;
   padding: 8px;
   height: 100%;
   width: 40px;
+  justify-content:center;
   box-sizing: border-box;
   margin-right: 100px;
   position: relative;
   border-radius: 5px;
-  justify-content:flex-end;
+
 }
 
 .CartLogo img {
   height: 100%;
 }
-
+.Toolbar h1 {
+  color: red;
+  border-bottom: none;
+  font-weight: bolder;
+}
 .Logo {
    
   padding: 8px;

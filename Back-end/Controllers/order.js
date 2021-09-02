@@ -40,13 +40,13 @@ exports.getOrders=(req,res,next)=>{
     .then(orders=>{
         console.log(orders)
         if(!orders){
-            const error = new Error('Couldnot fint any posts');
+            const error = new Error('Couldnot fint any orders');
             error.statusCode = 500
             throw error 
          }
 
          res.status(201).json({
-            message: 'Post fetched',
+            message: 'Orders fetched',
              orders: orders
          })
     })

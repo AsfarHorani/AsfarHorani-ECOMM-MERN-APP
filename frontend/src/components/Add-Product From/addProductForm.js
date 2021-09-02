@@ -209,7 +209,7 @@ const EditClickHandler= ()=>{
          Category
         </label>
        <select value={category}  className={classes.InputElement} onChange={(event)=>inputChangedHandler(event,'category')}>
-                <option value="Empty" selected=''>Select Category</option>
+                <option value="Empty" >Select Category</option>
                 <option value="desi">Desi</option>
                 <option value="drink">Drink</option>
                 <option value="deserts">Deserts</option>
@@ -269,7 +269,7 @@ label="Desciption"
         <Input 
         id = 'title'
         onChange={(event)=>inputChangedHandler(event,'title')} 
-        elementType={title.type}
+        elementType='text'
         invalid={!title.valid}
         message={title.validation.message}
         touched={title.touched}
@@ -282,7 +282,7 @@ label="Desciption"
          Category
         </label>
        <select className={classes.InputElement}  onChange={(event)=>inputChangedHandler(event,'category')}>
-               <option value="Empty" selected=''>Select Category</option>
+               <option value="Empty" >Select Category</option>
                 <option value="desi">Desi</option>
                 <option value="drinks">Drink</option>
                 <option value="deserts">Desert</option>
@@ -294,7 +294,7 @@ label="Desciption"
 <Input 
         id= "price"
         onChange={(event)=>inputChangedHandler(event,'price')} 
-        elementType='number' 
+        elementType='tel' 
         message={price.validation.message}
         label='Price'
         invalid={!price.valid}
@@ -320,7 +320,7 @@ shouldValidate={description.validation.required}
 />
 <div >
 <button  className={classes.Btn} onClick={()=>clickedHandler(price.value,title.value,description.value,category)}>Add</button>
-<button  className={classes.Btn} onCLick={()=>cancelEdit()}>Cancel</button>
+<button  className={classes.Btn} onClick={()=>cancelEdit()}>Cancel</button>
 
 </div>
         </div>

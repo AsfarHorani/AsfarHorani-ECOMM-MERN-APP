@@ -22,6 +22,10 @@ state={
 }
 
 componentDidMount=()=>{
+
+  
+
+
   console.log(this.state.props)
   console.log('Component did mount')
   const token = localStorage.getItem('token');
@@ -48,6 +52,7 @@ logoutHandler=()=>{
   localStorage.removeItem('expiryDate');
   localStorage.removeItem('adminId');
   console.log('Loggedout')
+  this.props.history.push('/')
 }
 
 signupHandler=(adminData)=>{
@@ -174,9 +179,7 @@ showBackdropHandler=()=>{
 
   return (
     <Fragment>
-      {this.state.showBackdrop && (
-          <Backdrop onClick={this.backdropClickHandler} />
-        )}
+   
         <ErrorHandler error={this.state.error}  onHandle={this.errorSolver} />
         <Layout showBackdrop={this.showBackdropHandler} logout={this.logoutHandler} isAuth={this.state.isAuth}/>
         <Body  catchError={this.catchError} onHandle={this.errorSolver} logout={this.logoutHandler}  login={this.loginHandler} token={this.state.token} isAuth={this.state.isAuth} />

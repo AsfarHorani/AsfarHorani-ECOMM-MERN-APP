@@ -55,7 +55,7 @@ return (
   <main className='centered'>
       <h1>{product.title}</h1>
       <div >
-          <img class="image" src={`http://localhost:8080/${product.imageUrl}`} alt={product.title} />
+          <img className="image" src={`http://localhost:8080/${product.imageUrl}`} alt={product.title} />
       </div>
       <h2>{`Rs: ${product.price}`}</h2>
       <p>{product.description}</p>

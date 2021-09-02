@@ -15,7 +15,7 @@ const [email, setEmail] = useState(
       validation : {
        required: true,
        type: 'email',
-       message: '*cannot be empty',
+       message: '*Not an email address',
        minLength: 1
               },
       valid: false,
@@ -60,7 +60,7 @@ const clickedHandler=()=>{
         email:email.value,
         password: password.value
     }
-   
+   console.log(data)
     props.login(data);
   
    
@@ -79,7 +79,7 @@ return(
   invalid={!email.valid}
   touched={email.touched}
   shouldValidate={email.validation.required}
-   elemetType="email" 
+   elementType="email" 
   />
  
     <Input 

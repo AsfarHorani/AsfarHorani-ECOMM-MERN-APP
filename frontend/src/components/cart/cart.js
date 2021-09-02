@@ -2,81 +2,30 @@
 import React from 'react';
 import './cart.scss'
 import {Link} from 'react-router-dom';
-import { Component } from 'react';
-import { render } from 'react-dom';
+import { useEffect } from 'react';
 
-class Cart  extends Component  {
-
-componentWillMount(){
-
-  this.setState({cart: this.props.cart})
-  
-}
-
-  state={
-    cart:{}
-  }
-
-  quantityHandler=(quan, prodId)=>{
-     
-    this.setState(prevState=>{
-    let updatedCart = {...prevState.cart}
-    let updatedCartItems= [...updatedCart.items];
-    let updatedPrice = updatedCart.totalPrice
-    let updatedCartItemIndex =  updatedCart.items.findIndex(p=>prodId===p.product._id)
-    let prevQuan = updatedCartItems[updatedCartItemIndex].quantity;
-      let prodPrice= updatedCartItems[updatedCartItemIndex].product.price;
-    updatedCartItems[updatedCartItemIndex].quantity = quan;
-     console.log(updatedPrice)
-    if(prevQuan && prevQuan>0){
-        updatedPrice = +updatedPrice - (prevQuan*prodPrice)
-    }
-    console.log(updatedPrice)
-    updatedPrice = +updatedPrice + (+quan* +prodPrice);
-    
-   return{ cart:{...this.state.cart, items: updatedCartItems, totalPrice : updatedPrice}}
-  })
-}
-
-removeFromCartHandler=(prodId, prodPrice)=>{
- 
-  this.setState(prevState=>{
-
-    let updatedCart = {...prevState.cart}
-    let updatedCartItems= [...updatedCart.items];
-    let updatedPrice = [updatedCart.totalPrice]
-    updatedPrice = +updatedPrice -  +prodPrice;
-   updatedCartItems= updatedCart.items.filter(p=>prodId!==p.product._id)
-    console.log( updatedCartItems)
-    return{
-      cart:{...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}
-      
-    }
- 
-  })
-  }
+const Cart =(props)=>{
 
 
-render()
-{
-  console.log(this.state.cart)
-  let subTotal = this.state.cart.totalPrice;
+useEffect(()=>{
+  console.log("rendering cart")
+
+},[props.cart])
 
 
 
-
-console.log(this.state.cart)
+console.log(props.cart.items)
 
     let items =<h3>Cart is Empty</h3>;
-    if(this.state.cart.items.length>0)
+    if(props.cart.items.length>0)
     {
-      items =  this.state.cart.items.map(i=>
+      items =  props.cart.items.map(i=>
         {
           let  totalPrice= i.product.price * i.quantity;
 
           const changeHandler=(event)=>{
           const quantity = event.target.value;
-          this.quantityHandler(quantity, i.product._id)
+          props.quantityHandler(quantity, i.product._id)
           console.log(totalPrice)
           }
              
@@ -94,12 +43,12 @@ console.log(this.state.cart)
               <input defaultValue={i.quantity} type="number" onChange={(event)=>changeHandler(event)}  min="1"/>
             </div>
             <div className="product-removal">
-              <button onClick={()=>this.removeFromCartHandler(i.product._id, i.product.price)} className="remove-product">
+              <button onClick={()=>props.removeFromCartHandler(i.product._id, i.product.price)} className="remove-product">
                 Remove
               </button>
               
             </div>
-            <div className="product-line-price">{totalPrice}</div>
+            <div className="product-line-price">{props.cart.totalPrice}</div>
           </div>
             )})
     }
@@ -123,7 +72,7 @@ console.log(this.state.cart)
  <div className="totals">
 <div className="totals-item">
   <label>Subtotal</label>
-  <div className="totals-value" id="cart-subtotal">{subTotal? subTotal : 0}
+  <div className="totals-value" id="cart-subtotal">{props.cart.totalPrice? props.cart.totalPrice : 0}
   </div>
 </div>
 
@@ -131,17 +80,15 @@ console.log(this.state.cart)
 </div>
   
   <Link to='/Checkout' >
-     <button onClick={()=>this.props.clicked(this.state.cart)}  className="checkout">
+     <button onClick={()=>props.clicked(props.cart)}  className="checkout">
      Checkout
      </button>
      </Link>
 
   </div>
 )
-}
-  
-}
 
+  }
 
 
 
