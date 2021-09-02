@@ -1,0 +1,14 @@
+.centered {
+    text-align: center;
+   
+  }
+  body {
+    padding: 0px;
+  }
+  .image {
+    width: 100%;
+    height: auto;
+  }
+  .Btn{
+    margin-top: 10px;
+  }

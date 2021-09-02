@@ -43,21 +43,33 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
   });
+ 
 
-
+  app.use(orderRoutes); 
+app.use(shopRoutes);
+app.use(authRoutes);
   app.use((error, req,res,next)=>{
-    console.log(error);
+    console.log('from error middleware',error);
     const status= error.statusCode || 500;
     const message= error.message ||  "Something went wrong";
     res.status(status).json({
       message: message 
     })
   })
-  app.use(orderRoutes); 
-app.use(shopRoutes);
-app.use(authRoutes);
+
+
 mongoose.connect(dataBaseURL)
 .then(res=>{
+  // User.findOne().then(user => {
+  //   if (!user) {
+  //     const user = new User({
+  //       cart: {
+  //         items: []
+  //       }
+  //     });
+  //     user.save();
+  //   }
+  // });
     app.listen(8080);
 })
 .catch(err=>{

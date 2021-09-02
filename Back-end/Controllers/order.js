@@ -1,8 +1,13 @@
 const Order = require('../Models/order');
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
+const { validationResult } = require('express-validator/check');
 exports.addOrder=(req,res,next)=>{
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Validation failed.');
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
     const name= req.body.name;
     const email= req.body.email;
     const phone= req.body.phone;
@@ -51,4 +56,21 @@ exports.getOrders=(req,res,next)=>{
         }
         next(err);
       });
+}
+
+
+exports.deleteOrder=(req,res,next)=>{
+    const orderId= req.params.orderId;
+    Order.findByIdAndRemove(orderId)
+    .then(resData=>{
+            res.status(201).json({
+            message:'Order deleted sucessfully',
+            resData:resData
+            })
+    }).catch(err=>{
+        if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+    })
 }

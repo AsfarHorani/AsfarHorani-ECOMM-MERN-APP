@@ -1,9 +1,15 @@
 const bcrypt = require('bcrypt');
 const Admin = require('../Models/admin');
 const jwt = require('jsonwebtoken')
-
+const { validationResult } = require('express-validator/check');
 exports.signup=(req,res,next)=>{
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Validation failed.');
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
     const name = req.body.name;
     const password= req.body.password;
     const email= req.body.email;
@@ -36,14 +42,21 @@ exports.signup=(req,res,next)=>{
 
 
 exports.login=(req,res,next)=>{
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Validation failed.');
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
+    console.log(req.body.email, req.body.password)
     const email = req.body.email;
     const password= req.body.password;
     let loadedAdmin  ;
      console.log(email,password)
     Admin.findOne({email:email})
     .then(admin=>{
-        console.log('admin exists')
+      
             if(!admin){
                 console.log("admin doesnt exist")
              const error = new Error("User doesn't exist");
@@ -59,7 +72,7 @@ exports.login=(req,res,next)=>{
         if(!doMatch){
             console.log('incorrect password')
             const error = new Error("Password is incorrect");
-            error.statusCode = 401;
+            error.statusCode = 403;
             throw error;
         }
         console.log(loadedAdmin)
@@ -81,6 +94,8 @@ exports.login=(req,res,next)=>{
         if (!err.statusCode) {
           err.statusCode = 500;
         }
+        console.log('from catch login',err)
+      
         next(err);
     })
 

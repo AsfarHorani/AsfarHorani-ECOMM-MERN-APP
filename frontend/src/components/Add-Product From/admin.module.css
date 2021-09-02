@@ -1,0 +1,76 @@
+
+.Form {
+  background: #F9F9F9;
+  padding: 25px;
+  width: auto;
+  max-width: 600px;
+  
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin: auto;
+}
+
+
+.Input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+}
+
+.Label {
+  color: black;
+  font-size: 15px;
+  width: 160px;
+  padding-right: 10px;
+}
+
+.InputElement {
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+  width: 100%;
+  
+  box-sizing: border-box;
+}
+
+.InputElement:focus {
+  outline: none;
+  background-color: #ccc;
+}
+
+
+
+
+.Btn {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    margin-left: 5px;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .Btn:hover,
+  .Btn:active {
+    background-color: #00695c;
+    color: white;
+  }
+  
+
+  .Btn.danger {
+    color: red;
+    border-color: red;
+  }
+  
+  .Btn.danger:hover,
+  .Btn.danger:active {
+    background: red;
+    color: white;
+  }

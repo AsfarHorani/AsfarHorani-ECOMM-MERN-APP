@@ -1,5 +1,5 @@
 const Product = require('../Models/product');
-
+const { validationResult } = require('express-validator/check');
 
 exports.getProducts=(req,res,next)=>{
 
@@ -27,7 +27,14 @@ exports.getProducts=(req,res,next)=>{
 }
 
 exports.postProduct=(req,res,next)=>{
-   
+    console.log(req.body.title)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Validation failed.');
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
     const title= req.body.title;
     const price = req.body.price;
     const description = req.body.description;
@@ -59,18 +66,30 @@ exports.postProduct=(req,res,next)=>{
 }
 
 exports.editProduct=(req,res,next)=>{
-console.log(req.body,'65')
+
+ const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Validation failed.');
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
     const prodId = req.params.prodId
     const title= req.body.title;
     const price = req.body.price;
     const category = req.body.category;
     const description = req.body.description;
     let imageUrl= null;
-    if(!req.file.path)
+    if(!req.file)
     {
-        imageUrl= req.body.image.path
+        
+        imageUrl= req.body.image
+        console.log(req.body.image, 'path when filenot defined')
     }
-     imageUrl = req.file.path;
+    else{
+        imageUrl = req.file.path;
+    }
+  
     
     Product.findById(prodId)
     .then(product=>{
@@ -85,7 +104,7 @@ console.log(req.body,'65')
         product.price = price;
         product.description= description;
         product.imageUrl = imageUrl;
-        product.category = req.body.category;
+        product.category = category;
         console.log(product, 'from edit prod')
         return product.save()
     })
@@ -134,7 +153,7 @@ exports.getProduct=(req,res,next)=>{
 
 exports.deleteProduct=(req,res,next)=>{
     const prodId= req.params.prodId;
-
+    console.log('prodId', prodId)
     console.log(prodId)
     Product.findByIdAndRemove(prodId)
     .then(product=>{
