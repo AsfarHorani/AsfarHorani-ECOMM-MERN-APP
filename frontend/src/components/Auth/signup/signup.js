@@ -1,9 +1,18 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { useHistory } from "react-router-dom";
 import Auth from '../auth';
-import Input from '../../Form/input';
+import Input from '../../UI components/input';
 import './signup.css'
 
-const signup=(props)=>{
+const Signup=(props)=>{
+    let history = useHistory();
+
+ useEffect(()=>{
+   if(!props.isAuth)
+   {
+    history.push("/");
+   }
+ },[props.isAuth])
 
     let name,email,password;
     const inputChangedHandler = (event,identifier)=>{
@@ -17,11 +26,7 @@ const signup=(props)=>{
             email = event.target.value
            
         }
-        // if(identifier==='image')
-        // {
-        //     image = event.target.file
-           
-        // }
+       
         if(identifier==='password')
         {
              password = event.target.value
@@ -40,7 +45,7 @@ const clickedHandler=(em,na,pa)=>{
   
   console.log(adminData)
   props.clicked(adminData)
-  props.history.replace('/')
+  
 }
 
 
@@ -76,4 +81,4 @@ return(
 }
 
 
-export default signup
+export default Signup

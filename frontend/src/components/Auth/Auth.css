@@ -12,6 +12,7 @@
   @media (min-width: 768px) {
     .auth-form {
       width: 40rem;
+      margin-top: 200px;   
     }
   }
   

@@ -1,12 +1,11 @@
 import React,{useState} from 'react';
 import Auth from '../auth';
-import Input from '../../Form/input';
+import Input from '../../UI components/input';
 import {checkValidity} from '../../../util/checkValidity'
 import './login.css'
 
 const Login=(props)=>{
 console.log(props)
-
 const [email, setEmail] = useState(
     {
   

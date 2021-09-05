@@ -4,7 +4,21 @@
 
 body {
   margin-top: 100px;
-  text-align: center
+  text-align: center;
+
+    padding: 0px 30px 30px 20px;
+
+    
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-font-smoothing: antialiased;
+      -o-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    
+    
+  
 }
 .App button{
   display: inline-block;

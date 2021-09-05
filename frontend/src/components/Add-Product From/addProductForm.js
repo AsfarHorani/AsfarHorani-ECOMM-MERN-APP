@@ -1,6 +1,6 @@
 import React , {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom'
-import Input from '../Form/input';
+import Input from '../UI components/input';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import classes from './admin.module.css';
 
@@ -255,7 +255,7 @@ label="Desciption"
 />
 <div >
 <button  className={classes.Btn} onClick={()=>EditClickHandler(price.value,title.value,description.value,category)}>Okay</button>
-<button  className={classes.Btn}>Cancel</button>
+<button  onClick={()=>cancelEdit()} className={classes.Btn}>Cancel</button>
 
 </div>
 

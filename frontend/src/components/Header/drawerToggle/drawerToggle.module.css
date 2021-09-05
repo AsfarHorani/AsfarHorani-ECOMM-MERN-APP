@@ -8,10 +8,12 @@
     padding: 10px 0;
     box-sizing: border-box;
     cursor: pointer;
+    margin-left: 2%;
 }
 
 .DrawerToggle div {
-    width: 30px;
+    width: auto;
+    min-width: 30px;
     height: 3px;
     background-color: white;
 }

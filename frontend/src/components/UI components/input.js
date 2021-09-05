@@ -45,14 +45,7 @@ const input=(props)=>{
          value={props.value}
         onChange={props.onChange}/>;
         break;
-        case('file'):
-        inputElement=<input  
-        type = 'file'
-         className={inputClasses.join(' ')} 
-         placeholder={props.placeholder}
-         value={props.value}
-          onChange={props.onChange}/>;
-        break;
+       
         case('textarea'):
         inputElement=<textarea 
         type='textarea'  
@@ -61,7 +54,14 @@ const input=(props)=>{
         value={props.value}
         onChange={props.onChange}/>;
         break;
-
+        case('file'):
+        inputElement=<input  
+        type = 'file'
+         className={inputClasses.join(' ')} 
+         placeholder={props.placeholder}
+         value={props.value}
+          onChange={props.onChange}/>;
+        break;
         case('select'):
         inputElement=(<select
           className={classes.Select} 

@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import './orders.css'
+import LoadingSpinner from '../UI components/LoadingSpinner';
+
 const Order =props=> {
 
    const [orders,setOrders]= useState([]);
@@ -12,7 +14,7 @@ const Order =props=> {
        
       setLoading(true)
      
-      fetch('http://localhost:8080/get-orders',{
+      fetch(process.env.REACT_APP_BACKEND_URL+'get-orders',{
           
           headers:{
             
@@ -51,7 +53,7 @@ const Order =props=> {
 
  const deleteOrderHandler=(orderId)=>{
   setLoading(true)
-  fetch(`http://localhost:8080/delete-order/${orderId}`,
+  fetch(process.env.REACT_APP_BACKEND_URL+`delete-order/${orderId}`,
   {
     method: "DELETE",
     headers:{Authorization: 'Bearer ' + props.token}
@@ -78,7 +80,7 @@ const Order =props=> {
         let ordersArray;
         if(loading)
         {
-            return (<h1>loading!!!</h1>)
+            return (<LoadingSpinner asOverlay/>)
         }
         
         if(orders.length===0 )
@@ -116,7 +118,7 @@ const Order =props=> {
                     </h3>
                     <h3> Name: {order.name}</h3>
                     <h3> Adress: {order.address}</h3>
-                    <h3>Time:{}</h3>
+                    <h3>Time: {order.time}</h3>
 
                     <ul className="orders__products-item">
                     <div className="column-labels">
@@ -146,7 +148,7 @@ const Order =props=> {
       <label>Grand Total</label>
       <div className="totals-value" id="cart-total">{+order.orderItems.totalPrice + 15.00}</div>
     </div>
-    <button className='Btn'>Completed</button>
+    <button className='Btn' onClick={()=>deleteOrderHandler(order._id)}>Completed</button>
     <button className='Btn' onClick={()=>deleteOrderHandler(order._id)}>Delete</button>
     
                 </li>)

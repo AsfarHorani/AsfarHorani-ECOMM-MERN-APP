@@ -8,9 +8,10 @@
     display: flex;
     justify-content:center;
     align-items:center;
-    padding: 0 20px;
+
     box-sizing: border-box;
     z-index: 200;
+    padding: 0;
 }
 .CartLogo {
   display: flex;
@@ -88,3 +89,100 @@
     background: red;
     color: white;
   }
+
+
+  
+@media (max-width: 500px) {
+.Toolbar {
+    height: 70px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    box-sizing: border-box;
+    z-index: 200;
+    padding: 0;
+}
+.CartLogo {
+  display: flex;
+  padding: 8px;
+  height: 100%;
+  width: 40px;
+  justify-content:center;
+  box-sizing: border-box;
+  margin-right: auto;
+  position: relative;
+  border-radius: 5px;
+
+}
+
+.CartLogo img {
+  height: 100%;
+}
+.Toolbar h1 {
+  color: red;
+  border-bottom: none;
+  font-weight: bolder;
+}
+.Logo {
+   
+  padding: 8px;
+  height: 100%;
+  width: 800px;
+  box-sizing: border-box;
+  margin-right: 100px;
+  border-radius: 5px;
+}
+
+.Logo img {
+  height: 100%;
+}
+
+.Toolbar nav {
+    height: 100%;
+    color: white
+}
+.Toolbar h2{
+    color: white;
+    align-self: center;
+}
+.Logo {
+    height: 100%;
+}
+.Btn {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    margin-left: 5px;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .Btn:hover,
+  .Btn:active {
+    background-color: #00695c;
+    color: white;
+  }
+  
+
+  .Btn.danger {
+    color: red;
+    border-color: red;
+  }
+  
+  .Btn.danger:hover,
+  .Btn.danger:active {
+    background: red;
+    color: white;
+  }
+
+}

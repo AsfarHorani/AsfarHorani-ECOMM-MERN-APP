@@ -1,18 +1,21 @@
 
-import React, {Component} from 'react';
-import Shop from '../../components/shop/home/home';
+import React, {Component, Suspense} from 'react';
+
 import './body.css'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import AddProductForm from '../../components/Add-Product From/addProductForm'
-import Signup from '../../components/Auth/signup/signup'
-import Login from '../../components/Auth/login/login'
-import ProductView from '../../components/Article/Product-View/product-view';
-import Cart from '../../components/cart/cart';
-import Checkout from '../../components/checkout/checkout';
-import Orders from '../..//components/orders/orders'
+import LoadingSpinner from '../../components/UI components/LoadingSpinner'
 import { Fragment } from 'react';
-import Backdrop from '../../components/Backdrop/Backdrop';
-import Modal from '../../components/Modal/Modal';
+import Shop from '../../components/shop/shop';
+import Backdrop from '../../components/UI components/Backdrop'
+import Modal from '../../components/UI components/Modal'
+const AddProductForm = React.lazy(()=> import('../../components/Add-Product From/addProductForm'))
+const Signup = React.lazy(()=> import('../../components/Auth/signup/signup'))
+const Login = React.lazy(()=> import('../../components/Auth/login/login'))
+const ProductView = React.lazy(()=> import('../../components/Article/Product-View/product-view'))
+const Checkout = React.lazy(()=> import('../../components/checkout/checkout'))
+const Orders = React.lazy(()=> import('../..//components/orders/orders'))
+const Cart = React.lazy(()=> import('../../components/cart/cart'))
+
 class Body extends Component {
 
   state={  
@@ -20,7 +23,7 @@ class Body extends Component {
     loggedInAdmin : null,
     message: null,
     products: [],
-    showBackdrop: true,
+    showBackdrop: false,
     cart: {
       items:[],
      totalPrice: null
@@ -30,24 +33,30 @@ class Body extends Component {
 
 }
 
-shouldComponentUpdate(nextProps, nextState) {
-  return this.state.products.length!== nextState.products.length || this.state.cart!==nextState.cart ;
- 
-}
 
 componentDidMount(){
-  
-  console.log('Component did mount....Body')
+ console.log('Component did mount....Body')
+  let cart =localStorage.getItem('cart');
+  if(cart)
+  {
+   
+    cart =JSON.parse(cart)
+    console.log(cart.items.length)
+    this.props.setCartItemCount(cart.items.length)
+    this.setState({cart: cart})
+  } const remainingMilliseconds = 60 * 60 * 1000;
 
-  console.log(this.state.cart)
+ this.setClearCartStorage(remainingMilliseconds);
+
 this.setState({loading: true})
-fetch('http://localhost:8080/get-products')
+fetch(process.env.REACT_APP_BACKEND_URL+'get-products')
   .then(res=>{
       
       return res.json();
    
   }).then(resData=>{
       console.log(resData)
+     
       this.setState({
          loading: false,
           products: resData.products,
@@ -57,11 +66,17 @@ fetch('http://localhost:8080/get-products')
   })
   .catch(err=>{
     console.log(err)
+    
+this.setState({loading: false})
     this.props.catchError(err)
 
 })
 }
 
+shouldComponentUpdate(nextProps, nextState) {
+  return this.state!== nextState
+ 
+}
 
 
 addProductHandler=(prodData)=>{
@@ -73,7 +88,7 @@ formData.append('description',prodData.description)
 formData.append('image', prodData.image)
 formData.append('category', prodData.category)
 
-fetch('http://localhost:8080/add-product/',{
+fetch(process.env.REACT_APP_BACKEND_URL+'add-product/',{
        method: 'POST',
        headers: {
           Authorization: 'Bearer ' + this.props.token
@@ -117,7 +132,7 @@ fetch('http://localhost:8080/add-product/',{
 deleteHandler=(prodId)=>{
   
   console.log(prodId)
-  fetch('http://localhost:8080/delete-product/' + prodId,
+  fetch(process.env.REACT_APP_BACKEND_URL+'delete-product/' + prodId,
   {
     method: "DELETE",
     headers:{Authorization: 'Bearer ' + this.props.token}
@@ -180,7 +195,11 @@ addToCartHandler=(prodId)=>{
     updatedPrice = +updatedPrice +  +prodPrice;
      updatedCartItems =prevState.cart.items.concat(newItem)
      console.log(updatedPrice)
-      
+     localStorage.setItem('cart', JSON.stringify({
+      items:updatedCartItems,
+      totalPrice: updatedPrice
+    }));
+    this.props.setCartItemCount(updatedCartItems.length)
       return{ cart: {...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}}
 
     })
@@ -204,7 +223,11 @@ addToCartHandler=(prodId)=>{
       }
       console.log(updatedPrice)
       updatedPrice = +updatedPrice + (+quan* +prodPrice);
-
+      localStorage.setItem('cart', JSON.stringify({
+        items:updatedCartItems,
+        totalPrice: updatedPrice
+      }));
+      this.props.setCartItemCount(updatedCartItems.length)
      return{ cart:{...this.state.cart, items: updatedCartItems, totalPrice : updatedPrice}}
     })
   }
@@ -219,7 +242,11 @@ addToCartHandler=(prodId)=>{
       updatedPrice = +updatedPrice -  +prodPrice;
      updatedCartItems= updatedCart.items.filter(p=>prodId!==p.product._id)
       console.log( updatedCartItems)
-     
+      localStorage.setItem('cart', JSON.stringify({
+        items:updatedCartItems,
+        totalPrice: updatedPrice
+      }));
+      this.props.setCartItemCount(updatedCartItems.length)
       return{
         cart:{...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}
         
@@ -227,18 +254,11 @@ addToCartHandler=(prodId)=>{
    
     })
     }
-  
-
-
-
- 
-     clickCheckoutHandler=(cart)=>{
-      this.setState({cart: cart})
-     }
 
   addOrderHandler=(data)=>{
     console.log(data,this.state.cart)
-    fetch('http://localhost:8080/add-order/',{
+    this.setState({loading:true})
+    fetch(process.env.REACT_APP_BACKEND_URL+'add-order/',{
       method: 'POST',
       headers: {
        'Content-Type': 'application/json',
@@ -252,7 +272,7 @@ addToCartHandler=(prodId)=>{
       })
      }).then(res=>{
       if( res.status!==200 && res.status!==201){
-        throw new Error('Coul\'d not place your order')
+        throw new Error('Could not place your order')
       }
 
       return res.json()
@@ -265,12 +285,25 @@ addToCartHandler=(prodId)=>{
        let updatedPrice = [updatedCart.totalPrice]
        updatedCartItems = [];
        updatedPrice = null;
-       this.props.history.replace('/')
-       return{ cart: {...this.state.cart, items: updatedCartItems, totalPrice: updatedPrice}}
+    
+       localStorage.removeItem('cart')
+       this.props.setCartItemCount(updatedCartItems.length)
+       return{ 
+         cart: {...this.state.cart, 
+          items: updatedCartItems, 
+          totalPrice: updatedPrice},
+        message:
+          {title: 'Order placed!', 
+          content:'Your order has been placed please wait for confirmation call'},
+          loading: false
+    
+      }
+      
        })
-       this.setState({message:{title: 'Order placed!', content:'Your order has been placed please wait for confirmation call'}})
-     }).catch(err=>{
+       this.props.history.replace('/')
+      }).catch(err=>{
       console.log(err)
+      this.setState({loading:false})
       this.props.catchError(err)
 
   })
@@ -287,7 +320,7 @@ formData.append('description',prodData.description)
 formData.append('image', prodData.image)
 formData.append('category', prodData.category)
   
- fetch('http://localhost:8080/edit-product/' + this.state.selectedProduct._id,{
+ fetch(process.env.REACT_APP_BACKEND_URL+'edit-product/' + this.state.selectedProduct._id,{
       method: 'PUT',
       headers:{
         Authorization: 'Bearer ' + this.props.token,
@@ -315,7 +348,7 @@ formData.append('category', prodData.category)
 
   
   backdropClickHandler = () => {
-    this.setState({ showBackdrop: false, error: null });
+    this.setState({ showBackdrop: false, message: null });
   };
 
   showBackdropHandler=()=>{
@@ -324,17 +357,29 @@ formData.append('category', prodData.category)
 
   errorSolver = () => {
 
-    
     this.setState({ message: null });
     console.log(this.state)
   };
 
+  clearCartStorage(){
+    localStorage.removeItem('cart')
+   }
+
+ setClearCartStorage(milliseconds){
+   setTimeout(() => {
+      this.clearCartStorage();
+    }, milliseconds);
+
+ }
   render() 
   {
     
     return(
       <Fragment>
-    {this.state.message && <Backdrop onClick={this.onHandle} />}
+         {this.state.showBackdrop && (
+          <Backdrop onClick={this.backdropClickHandler} />
+        )}
+   {this.state.message && <Backdrop onClick={this.errorSolver} />}
           {this.state.message && (
             <Modal
               title={this.state.message.title}
@@ -345,6 +390,9 @@ formData.append('category', prodData.category)
               <p>{this.state.message.content}</p>
             </Modal>
           )}
+
+
+         <Suspense fallback={<LoadingSpinner asOverlay/>}>
         <Switch>
           <Route path='/' exact render={(props) => <Shop token={this.props.token} {...props} loading={this.state.loading} addToCart={this.addToCartHandler} editHandler={this.editHandler} delete={this.deleteHandler} isAuth={this.props.isAuth} products={this.state.products}/>}/>
           <Route path='/deserts' exact render={(props) => <Shop param='deserts' token={this.props.token} {...props} loading={this.state.loading} addToCart={this.addToCartHandler} editHandler={this.editHandler} delete={this.deleteHandler} isAuth={this.props.isAuth} products={this.state.products}/>}/>
@@ -356,13 +404,14 @@ formData.append('category', prodData.category)
           <Route path="/add-product"  exact render={(props) =><AddProductForm token={this.props.token} editMode={false} {...props}  isAuth={this.props.isAuth} clicked={this.addProductHandler} />}/>
           <Route name='product-view' path="/product/:prodId" exact render={(props)=><ProductView addToCart={this.addToCartHandler} token={this.props.token} {...props} />   }></Route>
           <Route path='/edit-product'  exact render={(props)=><AddProductForm token={this.props.token} clickedEdit ={this.clickedEditHandler} product={this.state.selectedProduct} editMode={true} {...props} isAuth={props.isAuth}/>}/>
-          <Route path='/Cart' exact render={(props)=><Cart cart={this.state.cart} removeFromCartHandler={this.removeFromCartHandler} quantityHandler={this.quantityHandler}  setClearLocalStorage={this.setClearLocalStorage} clearLocalStorage={this.clearLocalStorage}  clicked={this.clickCheckoutHandler} cart={this.state.cart} {...props}/>}/>
-          <Route path='/Checkout' exact render={(props)=><Checkout {...props} cart={this.state.cart} clicked={this.addOrderHandler}/>}/>
-          <Route path="/login" exact render={(props) =><Login  className='login' {...props}  login={this.props.login}/>}/>
-          <Route path="/signup" exact render={(props) =><Signup {...props} token={this.props.token}   signup={this.props.signup}/>}/>
+          <Route path='/Cart' exact render={(props)=><Cart removeFromCartHandler={this.removeFromCartHandler} quantityHandler={this.quantityHandler}  cart={this.state.cart} {...props}/>}/>
+          <Route path='/Checkout' exact render={(props)=><Checkout {...props} cart={this.state.cart} loading={this.state.loading}   clicked={this.addOrderHandler}/>}/>
+          <Route path="/login" exact render={(props) =><Login  className='login' {...props} login={this.props.login}/>}/>
+          <Route path="/signup" exact render={(props) =><Signup {...props} token={this.props.token}  isAuth={this.props.isAuth} signup={this.props.signup}/>}/>
           <Route path='/orders'  exact render={(props)=><Orders {...props} token={this.props.token} catchError={this.props.catchError}/>}/>
           <Redirect to='/'/>
      </Switch>
+     </Suspense> 
      </Fragment>
   )
   }

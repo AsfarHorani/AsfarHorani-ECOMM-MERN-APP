@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './productView.css'
+import LoadingSpinner from '../../UI components/LoadingSpinner';
+
 class ProductView extends Component{
 
 state={
@@ -12,7 +14,9 @@ componentDidMount() {
     console.log(this.props.match)
     const prodId = this.props.match.params.prodId;
     this.setState({loading:true})
-  fetch('http://localhost:8080/get-product/' + prodId,
+
+ 
+  fetch(process.env.REACT_APP_BACKEND_URL+'get-product/'+ prodId,
         { method: "GET", 
           
           }).then(res=>{
@@ -30,6 +34,11 @@ componentDidMount() {
             })
             console.log(this.state)
           }).catch(err=>{
+            this.setState({
+              
+              loading: false
+              
+          })
             console.log(err)
           })
       
@@ -43,19 +52,19 @@ componentDidMount() {
        let product = this.state.product;
        if(!product)
        {
-           return null
+           return <h3>Something went wrong try to reload page!</h3>
        }
 
       
       if(this.state.loading){
-        return (<h1>Loading...</h1>)
+        return (<LoadingSpinner asOverlay/>)
       }   
       
 return (
   <main className='centered'>
       <h1>{product.title}</h1>
       <div >
-          <img className="image" src={`http://localhost:8080/${product.imageUrl}`} alt={product.title} />
+          <img className="image" src={process.env.REACT_APP_BACKEND_URL+`${product.imageUrl}`} alt={product.title} />
       </div>
       <h2>{`Rs: ${product.price}`}</h2>
       <p>{product.description}</p>

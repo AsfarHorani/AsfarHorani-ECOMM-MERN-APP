@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './article.module.css';
-import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
+
 import {Link} from 'react-router-dom';
 const article=(props)=>{
 
@@ -28,7 +28,7 @@ const article=(props)=>{
     </header>
 
     <div >
-        <img className={classes.Image} src={`http://localhost:8080/${props.imageUrl}`} alt={props.title}/>
+        <img className={classes.Image} src={process.env.REACT_APP_BACKEND_URL+`${props.imageUrl}`} alt={props.title}/>
         
     </div>
 

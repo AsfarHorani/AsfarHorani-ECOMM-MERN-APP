@@ -2,7 +2,8 @@ import React,{useState,useEffect} from 'react';
 import './checkout.scss'
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
 import {checkValidity} from '../../util/checkValidity'
-import Input from '../Form/input'
+import Input from '../UI components/input'
+import LoadingSpinner from '../UI components/LoadingSpinner';
 const Checkout = (props)=>{
 
   const [name, setName] = useState(
@@ -33,12 +34,15 @@ const [email, setEmail] = useState(
     valid: false,
     touched: false
 })
+
+
 const [phone, setPhone] = useState(
   {
 
 
     value:'',
     validation : {
+      type: 'tel',
      required: true,
      minLength: 11,
      message: '*must be a valid phone number'
@@ -55,14 +59,16 @@ const [address, setAddress] = useState(
     value:'',
     validation : {
      required: true,
-     minLength: 10,
-     maxLength: 50,
-     message: '*must be a valid and complete address of length between 10 and 50'
+     minLength: 20,
+     maxLength: 100,
+     message: '*must be a valid and complete address of length between 20 and 100'
             },
    valid: false,
  
    touched: false
 })
+
+
 
 const [isFormValid, setIsfromValid] = useState(false)
 const [cart,setCart]= useState({})
@@ -102,13 +108,11 @@ const [cart,setCart]= useState({})
 
     useEffect(()=>{
       
-     if(email.valid && phone.valid && address.valid && name.valid && isFormValid===false && props.cart.items.length>0)
+     if(email.valid && phone.valid && address.valid && name.valid && !isFormValid  && props.cart.items.length>0)
      {
       setIsfromValid(true)
      }
-     else(
-      setIsfromValid(false)
-     )
+     
      console.log('checking form validity..', isFormValid)
     },[email,phone,address,name])
 
@@ -117,21 +121,21 @@ const [cart,setCart]= useState({})
       {
         let isValid = checkValidity(event.target.value,name.validation)
         setName({...name, value:event.target.value, valid: isValid, touched: true})
-        console.log(name)
+        
       
       }
       if(identifier==='email')
       {
         let isValid = checkValidity(event.target.value,email.validation)
         setEmail({...email, value:event.target.value, valid: isValid, touched: true})
-        console.log(email)
+        
       }
 
       if(identifier==='phone')
       {
         let isValid = checkValidity(event.target.value,phone.validation)
         setPhone({...phone, value:event.target.value, valid: isValid, touched: true})
-        console.log(phone)
+      
        
       }
       if(identifier==='address')
@@ -153,12 +157,17 @@ const data={
     address: address.value,
     phone: phone.value
 }
-console.log(data)
+
 
 props.clicked(data)
 
 }
 
+
+if(props.loading)
+{
+  return (<LoadingSpinner asOverlay/> )
+}
 
   return(
     <Auxiliary>

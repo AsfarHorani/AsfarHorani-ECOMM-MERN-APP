@@ -8,13 +8,15 @@
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.5",
     "multer": "^1.4.3",
+    "nodemailer": "^6.6.3",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "uuid": "^8.3.2"
   },
   "name": "e-comm",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "start-server": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

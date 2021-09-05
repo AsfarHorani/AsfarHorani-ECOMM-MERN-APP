@@ -23,7 +23,12 @@
             isValid = re.test(String(value).toLowerCase());
        
         }
+        if(rules.type==='tel')
+        {
+            const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+            isValid = re.test(String(value).toLowerCase());
+       
+        }
         
-
         return isValid;
     }   

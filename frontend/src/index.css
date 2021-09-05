@@ -7,6 +7,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.Btn {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  font: inherit;
+  margin-left: 5px;
+  border: 1px solid #00695c;
+  color: #00695c;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.Btn:hover,
+.Btn:active {
+  background-color: #00695c;
+  color: white;
+}
+
+
+.Btn.danger {
+  color: red;
+  border-color: red;
+}
+
+.Btn.danger:hover,
+.Btn.danger:active {
+  background: red;
+  color: white;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

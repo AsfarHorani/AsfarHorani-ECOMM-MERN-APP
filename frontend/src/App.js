@@ -2,9 +2,9 @@ import React, {Component,Fragment} from 'react'
 import './App.css';
 import {withRouter } from 'react-router-dom';
 import Body from './container/Body/body';
-import Layout from './container/Body/layout/layout';
+import Layout from './container/layout/layout';
 import ErrorHandler from './components/errorHandler/errorHandler'
-import Backdrop from './components//Backdrop/Backdrop'
+import Backdrop from './components/UI components/Backdrop'
 
 class App extends Component {
 
@@ -14,17 +14,13 @@ state={
     adminId :null,
     showSideBar: false,
     error: null,
-   
-    message:null,
-    showBackdrop: false
-
+    showBackdrop: false,
+    count: 0
   
 }
 
+
 componentDidMount=()=>{
-
-  
-
 
   console.log(this.state.props)
   console.log('Component did mount')
@@ -57,7 +53,7 @@ logoutHandler=()=>{
 
 signupHandler=(adminData)=>{
   console.log(adminData)
-  fetch('http://localhost:8080/signup/',{
+  fetch(process.env.REACT_APP_BACKEND_URL+'signup',{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -96,7 +92,7 @@ signupHandler=(adminData)=>{
 loginHandler=(loginData)=>{
 
   console.log(loginData);
-  fetch('http://localhost:8080/login',{
+  fetch(process.env.REACT_APP_BACKEND_URL+'login',{
     method: 'POST',
     headers:{
       'Content-Type' : 'application/json'
@@ -142,8 +138,6 @@ loginHandler=(loginData)=>{
     this.setState({error: err, isAuth: false})
     console.log(err)
   })
- 
-  
 
 
 }
@@ -174,15 +168,26 @@ catchError = error => {
 showBackdropHandler=()=>{
   this.setState({showBackdrop: true})
 }
+
+setCartItemCount=(c)=>{
+  console.log(c)
+  if(c===0){
+   return this.setState({count:null})
+  }
+  this.setState({count:c})
+}
+
   render(){
 
 
   return (
     <Fragment>
-   
+    {this.state.showBackdrop && (
+          <Backdrop onClick={this.backdropClickHandler} />
+        )}
         <ErrorHandler error={this.state.error}  onHandle={this.errorSolver} />
-        <Layout showBackdrop={this.showBackdropHandler} logout={this.logoutHandler} isAuth={this.state.isAuth}/>
-        <Body  catchError={this.catchError} onHandle={this.errorSolver} logout={this.logoutHandler}  login={this.loginHandler} token={this.state.token} isAuth={this.state.isAuth} />
+        <Layout count={this.state.count} showBackdrop={this.showBackdropHandler} logout={this.logoutHandler} isAuth={this.state.isAuth}/>
+        <Body setCartItemCount={this.setCartItemCount}  catchError={this.catchError} onHandle={this.errorSolver} logout={this.logoutHandler}  login={this.loginHandler} token={this.state.token} isAuth={this.state.isAuth} />
   
          </Fragment>
   );

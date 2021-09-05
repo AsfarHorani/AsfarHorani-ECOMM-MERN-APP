@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Article/Product-View/productView.css"],"names":[],"mappings":"AAAA,UACI,iBAEF,CAEA,OACE,SAAU,CACV,WACF,CACA,KACE,eACF","file":"8.ee50e5fd.chunk.css","sourcesContent":[".centered {\r\n    text-align: center;\r\n   \r\n  }\r\n\r\n  .image {\r\n    width: 40%;\r\n    height: auto;\r\n  }\r\n  .Btn{\r\n    margin-top: 10px;\r\n  }"]}

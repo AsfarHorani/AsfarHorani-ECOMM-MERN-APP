@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-const dataBaseURL = "mongodb+srv://asfar:101021@cluster0.mnphf.mongodb.net/mrfood";
+const dataBaseURL =`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mnphf.mongodb.net/${process.env.DB_NAME}`;
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 let path = require('path');
@@ -22,7 +22,7 @@ const fileStorage = multer.diskStorage({
   }
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req, file, cb) => {``
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   if(allowedFileTypes.includes(file.mimetype)) {
       cb(null, true);
@@ -62,7 +62,7 @@ app.use(authRoutes);
 mongoose.connect(dataBaseURL)
 .then(res=>{
  
-    app.listen(8080);
+    app.listen(process.env.PORT || 500);
 })
 .catch(err=>{
     console.log(err)

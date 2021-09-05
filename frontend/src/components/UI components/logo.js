@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './logo.module.css';
-import img from '../../../assets/images/logo.png'
+import img from '../../assets/images/logo.png'
 
 const logo = (props)=>(
 

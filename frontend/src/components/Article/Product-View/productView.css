@@ -2,11 +2,9 @@
     text-align: center;
    
   }
-  body {
-    padding: 0px;
-  }
+
   .image {
-    width: 100%;
+    width: 40%;
     height: auto;
   }
   .Btn{

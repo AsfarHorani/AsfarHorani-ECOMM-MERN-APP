@@ -1,7 +1,8 @@
 import React, { Component,Fragment } from 'react';
-import SideBar from '../../SideBar/sideBar'
-import Article  from '../../Article/article';
+import SideBar from '../SideBar/sideBar'
+import Article  from '../Article/article';
 import classes from './shop.module.css';
+import LoadingSpinner from '../UI components/LoadingSpinner';
 const shop=(props)=>{
     let prods = props.products ;
     const param = props.param
@@ -38,7 +39,7 @@ const shop=(props)=>{
 
     if(props.loading){
              return (
-                <h1>loading...</h1>
+                <LoadingSpinner asOverlay/>
             )
         }
 

@@ -1,13 +1,13 @@
 .Form {
     width: 20rem;
     max-width: 90%;
-    margin: auto;
+   
     padding-left: 30%;
     display: block;
 }
 .CardHeader,
 .CardContent {
-  padding: 1rem;
+  padding: 0;
 }
 
 .Btn {
@@ -45,7 +45,8 @@
 .Item {
     width: 20rem;
     max-width: 95%;
-    margin: 1rem;
+    margin:  1rem ;
+    margin-top: 0rem;
 }
 .Image {
   width: 13rem;

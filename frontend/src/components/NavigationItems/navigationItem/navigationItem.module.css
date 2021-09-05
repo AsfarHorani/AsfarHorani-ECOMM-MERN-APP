@@ -1,6 +1,6 @@
 .NavigationItem li {
-    font-size: 20px;
-    
+    font-size: auto;
+    max-width: 15px;
     padding-top: 10px;
     background:none;
     width: 60%;

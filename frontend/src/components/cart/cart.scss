@@ -49,15 +49,7 @@ $font-bold: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
 
 
 /* Body/Header stuff */
-body {
-  padding: 0px 30px 30px 20px;
-  font-family: $font-default;
-  font-weight: 100;
-}
 
-h1 {
-  font-weight: 100;
-}
 
 label {
   color: $color-label;
@@ -228,7 +220,7 @@ label {
 
 
 /* Make more adjustments for phone */
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 500px) {
   
   .product-removal {
     float: right;
@@ -244,6 +236,7 @@ label {
   .product .product-line-price:before {
     content: 'Item Total: Rs ';
   }
+  
   
   .totals {
     .totals-item {
