@@ -21,7 +21,21 @@ https://asfii-foods-mern-app.web.app/#/
 
 
 ## Screenshots
+Home:
 ![](frontend/public/home.png)
+
+Explore:
+![](frontend/public/Categories.png)
+
+Cart:
+![](frontend/public/cart.png)
+
+Order:
+![](frontend/public/order.png)
+
+Add product form:
+![](frontend/public/2022-02-13%20(7).png)
+
 
 
 
