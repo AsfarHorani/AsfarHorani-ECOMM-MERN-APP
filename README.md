@@ -17,7 +17,7 @@ React for displaying UI components.
 ## Demo
 
 Here's the wbsite link you can explore here and also try to do a demo order: 
-https://asfii-foods-mern-app.web.app/#/
+https://mrfoodsasfii.web.app/#/
 
 
 ## Screenshots
